@@ -48,3 +48,28 @@ module.exports.detail = async (req, res) => {
     res.json("THAI VAN THI");
   }
 };
+
+//[PATCH] /change-status/:id
+module.exports.changeStatus = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const status = req.body.status;
+    await Task.updateOne(
+      {
+        _id: id,
+      },
+      {
+        status: status,
+      },
+    );
+    res.json({
+      message: "Cập nhật trạng thái thành công",
+      code: 200,
+    });
+  } catch {
+    res.json({
+      message: "Cập nhật trạng thái KHÔNG thành công",
+      code: 400,
+    });
+  }
+};
