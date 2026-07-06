@@ -1,4 +1,4 @@
 const Task = require("./task.route");
 module.exports = (app) => {
-  app.use("/tasks", Task);
+  app.use("/api/v1/tasks", Task);
 };
