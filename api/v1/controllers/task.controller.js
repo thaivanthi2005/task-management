@@ -78,10 +78,6 @@ module.exports.changeStatus = async (req, res) => {
 module.exports.changeMulti = async (req, res) => {
   try {
     const { ids, key, value } = req.body;
-
-    console.log(ids);
-    console.log(key);
-    console.log(value);
     switch (key) {
       case "status":
         await Task.updateMany(
@@ -97,7 +93,21 @@ module.exports.changeMulti = async (req, res) => {
           code: 200,
         });
         break;
-
+      case "deleted":
+        await Task.updateMany(
+          {
+            _id: { $in: ids },
+          },
+          {
+            deleted: true,
+            deletedAt: new Date(),
+          },
+        );
+        res.json({
+          message: "Cập nhật trạng thái thành công",
+          code: 200,
+        });
+        break;
       default:
         res.json({
           message: "Cập nhật trạng thái KHÔNG thành công",
