@@ -135,18 +135,32 @@ module.exports.createPost = async (req, res) => {
 module.exports.edit = async (req, res) => {
   try {
     const id = req.params.id;
-    await Task.updateOne(
-      { _id: id },
-      { title: req.body.title, content: req.body.content },
-    );
+    await Task.updateOne({ _id: id }, req.body);
     res.json({
       code: 200,
-      messsage: "sửa thành công",
+      messsage: "Sửa thành công",
     });
   } catch (error) {
     res.json({
       code: 400,
       messsage: "Sửa không thành công !!! LỖI !!!",
+    });
+  }
+};
+
+// [DELETE] /api/v1/tasks/delete/:id
+module.exports.delete = async (req, res) => {
+  try {
+    const id = req.params.id;
+    await Task.deleteOne({ _id: id });
+    res.json({
+      code: 200,
+      messsage: "Xóa thành công",
+    });
+  } catch (error) {
+    res.json({
+      code: 400,
+      messsage: "Xóa không thành công !!! LỖI !!!",
     });
   }
 };
