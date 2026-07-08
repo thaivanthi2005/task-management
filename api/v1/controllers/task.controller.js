@@ -130,3 +130,23 @@ module.exports.createPost = async (req, res) => {
     });
   }
 };
+
+// [PATCH] /api/v1/tasks/edit/:id
+module.exports.edit = async (req, res) => {
+  try {
+    const id = req.params.id;
+    await Task.updateOne(
+      { _id: id },
+      { title: req.body.title, content: req.body.content },
+    );
+    res.json({
+      code: 200,
+      messsage: "sửa thành công",
+    });
+  } catch (error) {
+    res.json({
+      code: 400,
+      messsage: "Sửa không thành công !!! LỖI !!!",
+    });
+  }
+};
