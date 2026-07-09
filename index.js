@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const app = express();
+var cors = require("cors");
 const bodyParser = require("body-parser");
 const port = process.env.PORT || 3000;
 const database = require("./config/database");
@@ -11,7 +12,7 @@ const { applyDefaults } = require("../begin/models/rooms-chat.model");
 database.connect();
 // parse application/json
 app.use(bodyParser.json());
-
+app.use(cors());
 route(app);
 app.listen(port, () => {
   console.log(`App listening on PORT ${port}`);
