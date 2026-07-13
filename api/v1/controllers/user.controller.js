@@ -119,3 +119,32 @@ module.exports.otpPassword = async (req, res) => {
     otp: otp,
   });
 };
+
+// [POST] /api/v1/users/password/resetpassword
+module.exports.resetPassword = async (req, res) => {
+  const token = req.body.token;
+  const password = req.body.password;
+  const user = await User.findOne({
+    token: token,
+  });
+  console.log(user);
+  if (md5(password) == user.password) {
+    res.json({
+      code: 400,
+      message: "Vui lòng nhập mật khẩu khác với mật khẩu cũ ",
+    });
+    return;
+  }
+  await User.updateOne(
+    {
+      token: token,
+    },
+    {
+      password: md5(password),
+    },
+  );
+  res.json({
+    code: 200,
+    message: "THAY DOI MK THANH CONG ",
+  });
+};
