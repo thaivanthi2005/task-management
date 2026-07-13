@@ -76,7 +76,6 @@ module.exports.forgotPassword = async (req, res) => {
   const objectForgotPassword = {
     email: email,
     otp: otp,
-    expiresAt: Date.now(),
   };
   // console.log(objectForgotPassword);
   const forgotPassword = new ForgotPassword(objectForgotPassword);
@@ -93,7 +92,30 @@ module.exports.forgotPassword = async (req, res) => {
   await sendMailHelper.sendMail(email, subject, html);
   res.json({
     code: 200,
-    message: "TEST",
     email: email,
+  });
+};
+// [POST] /api/v1/password/otp
+module.exports.otpPassword = async (req, res) => {
+  const email = req.body.email;
+  const otp = req.body.otp;
+  const otpexits = await ForgotPassword.findOne({
+    email: email,
+    otp: otp,
+  });
+  if (!otpexits) {
+    res.json({
+      code: 400,
+      message: "MÃ OTP KO HỢP LỆ",
+    });
+    return;
+  }
+  const user = await User.findOne({ email: email });
+  const token = user.token;
+  res.cookie("token", token);
+  res.json({
+    code: 200,
+    message: "XÁC THỰC THÀNH CÔNG",
+    otp: otp,
   });
 };
