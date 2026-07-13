@@ -3,11 +3,21 @@ const paginatonHelper = require("../../../helper/pagination");
 const searchHelper = require("../../../helper/search");
 // [GET] /api/v1/tasks
 module.exports.index = async (req, res) => {
-  const find = { deleted: false };
+  const find = {
+    $or: [
+      {
+        createdBy: req.user.id,
+      },
+      {
+        listUser: req.user.id,
+      },
+    ],
+    deleted: false,
+  };
+  console.log(req.user.id);
   if (req.query.status) {
     find.status = req.query.status;
   }
-  console.log(req.query);
   const sort = {};
   if (req.query.sortKey && req.query.sortValue) {
     sort[req.query.sortKey] = req.query.sortValue;
