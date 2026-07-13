@@ -154,11 +154,21 @@ module.exports.resetPassword = async (req, res) => {
     message: "THAY DOI MK THANH CONG ",
   });
 };
+// [GET] /api/v1/users/detail
 
 module.exports.detail = async (req, res) => {
   res.json({
     code: 200,
     message: "TEST",
     info: req.user,
+  });
+};
+// [GET] /api/v1/users/list
+module.exports.list = async (req, res) => {
+  const user = await User.find({ deleted: false }).select("-password -token");
+  res.json({
+    code: 200,
+    message: "TEST",
+    info: user,
   });
 };

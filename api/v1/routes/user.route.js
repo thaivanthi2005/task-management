@@ -8,4 +8,5 @@ router.post("/password/forgot", controller.forgotPassword);
 router.post("/password/otp", controller.otpPassword);
 router.post("/password/resetpassword", controller.resetPassword);
 router.get("/detail", authMiddlware.requireAuth, controller.detail);
+router.get("/list", authMiddlware.requireAuth, controller.list);
 module.exports = router;
