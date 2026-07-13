@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const generate = require("../../../helper/generate");
 
 const accountSchema = new mongoose.Schema(
   {
@@ -8,7 +7,6 @@ const accountSchema = new mongoose.Schema(
     password: String,
     token: {
       type: String,
-      default: generate.generateRandomString(20),
     },
     deleted: {
       type: Boolean,

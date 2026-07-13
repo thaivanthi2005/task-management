@@ -3,6 +3,7 @@ const User = require("../models/user.model");
 const generateHelper = require("../../../helper/generate");
 const ForgotPassword = require("../models/forgot-password");
 const sendMailHelper = require("../../../helper/sendMail");
+
 // [POST] /api/v1/users/register
 module.exports.register = async (req, res) => {
   req.body.password = md5(req.body.password);
@@ -16,7 +17,12 @@ module.exports.register = async (req, res) => {
       message: "EMAIL ĐÃ TỒN TẠI",
     });
   } else {
-    const user = new User(req.body);
+    const user = new User({
+      fullName: req.body.fullName,
+      email: req.body.email,
+      password: req.body.password,
+      token: generateHelper.generateRandomString(20),
+    });
     user.save();
     const token = user.token;
     res.cookie("token", token);
@@ -116,7 +122,7 @@ module.exports.otpPassword = async (req, res) => {
   res.json({
     code: 200,
     message: "XÁC THỰC THÀNH CÔNG",
-    otp: otp,
+    token: token,
   });
 };
 
