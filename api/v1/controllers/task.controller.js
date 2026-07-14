@@ -14,7 +14,6 @@ module.exports.index = async (req, res) => {
     ],
     deleted: false,
   };
-  console.log(req.user.id);
   if (req.query.status) {
     find.status = req.query.status;
   }
